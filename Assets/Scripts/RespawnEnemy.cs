@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class RespawnEnemy : MonoBehaviour
 {
-    public GameObject Enemy;
-    public Transform Respawn;
+    [SerializeField]
+    private GameObject _enemy;
+    [SerializeField]
+    private Transform _respawn;
     
-   
 
-
-    void Update()
+   private void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
             Create();
     }
 
-    public void Create()
+    private void Create()
     {
         
-        Instantiate(Enemy, Respawn);
+        Instantiate(_enemy, _respawn);
 
     }
 }

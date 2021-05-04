@@ -13,11 +13,10 @@ public class WorkMine : MonoBehaviour
     }
     void OnTriggerEnter(Collider collider)
     {
-        
-        if (collider.gameObject.CompareTag("Enemy"))
+        var enemy = collider.GetComponent<Enemy>();
+        if (enemy != null)
         {
-            var enemy = collider.GetComponent<Enemy>();
-            enemy.Hurt(_damage);
+           enemy.Hurt(_damage);
         }
             
     }

@@ -6,39 +6,41 @@ public class ZoneTarget : MonoBehaviour
 {
     [SerializeField]
     private int _damage;
-    public GameObject enemy;
+
+    [SerializeField]
+    private GameObject enemy;
 
     void OnTriggerEnter(Collider other)
-    { 
-        if(other.CompareTag("MainHero"))
-        Debug.Log("Обнаружен противник");
+    {
+        var player = other.GetComponent<Player>();
+        if (player != null)
+            Debug.Log("Обнаружен противник");
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("MainHero"))
+    {      
+        var player = other.GetComponent<Player>();
+        if (player != null)
         {
-            var player = other.GetComponent<Player>();
-            if (player != null)
-            {
-                var relativePosition = player.transform.position - enemy.transform.position;
-                var rotation = Quaternion.LookRotation(relativePosition);
-                enemy.transform.rotation = rotation;
+            var relativePosition = player.transform.position - enemy.transform.position;
+            var rotation = Quaternion.LookRotation(relativePosition);
+            enemy.transform.rotation = rotation;
+            var distance = Vector3.Distance(player.transform.position, transform.position);
+            Debug.DrawRay(enemy.transform.position, transform.forward, Color.red);
 
-                if (Physics.Raycast(enemy.transform.position, player.transform.position, out var hitinfo))
+            if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out var hitinfo, distance))
+            {
+                if (hitinfo.transform.GetComponent<Player>())
                 {
-                    if (hitinfo.transform.GetComponent<Player>())
-                    {
-                        player.Hit(_damage);
-                        Debug.Log($"Попадание, нанесено {_damage} урона");
-                    }
-                    else
-                    {
-                        Debug.Log("Нет Попадания"); 
-                    }
-                }          
-            }       
-        }
+                    player.Hit(_damage);
+                    Debug.Log($"Попадание, нанесено {_damage} урона");
+                }
+                else
+                {
+                    Debug.Log("Нет Попадания"); 
+                }
+            }          
+        }       
     }
 
     private void OnTriggerExit(Collider other)

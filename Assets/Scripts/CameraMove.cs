@@ -5,12 +5,12 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     public GameObject player;
-    public float speedCam = 15;
-    public float speedScroll = 15;
-    public float minDistance;
-    public float maxDistance;
+    public float SpeedCam = 15;
+    public float SpeedScroll = 15;
+    public float MinDistance;
+    public float MaxDistance;
 
-    private bool _isActive = false;
+    private bool _isActive;
     private float _distance;
     private float _x;
     private float _y;
@@ -18,8 +18,8 @@ public class CameraMove : MonoBehaviour
 
     void LateUpdate()
     {
-        _x = Input.GetAxis("Mouse X") * speedCam * 10;
-        _y = Input.GetAxis("Mouse Y") * -speedCam * 10;
+        _x = Input.GetAxis("Mouse X") * SpeedCam * 10;
+        _y = Input.GetAxis("Mouse Y") * -SpeedCam * 10;
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -41,14 +41,14 @@ public class CameraMove : MonoBehaviour
         if(Input.GetAxis("Mouse ScrollWheel") != 0)
         {
             _distance = Vector3.Distance(transform.position, player.transform.position);
-            if(Input.GetAxis("Mouse ScrollWheel") > 0 && _distance > minDistance)
+            if(Input.GetAxis("Mouse ScrollWheel") > 0 && _distance > MinDistance)
             {
-                transform.Translate(Vector3.forward * Time.deltaTime * speedScroll);
+                transform.Translate(Vector3.forward * Time.deltaTime * SpeedScroll);
             }
 
-            if(Input.GetAxis("Mouse ScrollWheel") < 0 && _distance < maxDistance)
+            if(Input.GetAxis("Mouse ScrollWheel") < 0 && _distance < MaxDistance)
             {
-                transform.Translate(Vector3.forward * Time.deltaTime * -speedScroll);
+                transform.Translate(Vector3.forward * Time.deltaTime * -SpeedScroll);
             }
         }
     }
